@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: bisque;
+            position: relative;
+        }
+        
+        .main {
+            display: flex;
+            flex-flow: column nowrap;
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        
+        .submain {
+            display: flex;
+            flex-flow: row nowrap;
+            width: 100%;
+            height: 200px;
+            margin: 0 auto;
+        }
+        /* khung hình đặt cược */
+        
+        .child {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+        /*khung két quả */
+        
+        .kq {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            width: 500px;
+            height: 150px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        
+        .image {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+        }
+        
+        .coin {
+            position: fixed;
+            z-index: 3px;
+            display: none;
+        }
+        
+        .ketqua {
+            width: 150px;
+            height: 150px;
+            background-color: lightslategray;
+        }
+        /* hình kết quả */
+        
+        .ketqua img {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .datcuoc {
+            width: 800px;
+            height: fit-content;
+            margin: 0 auto;
+            margin-top: 24px;
+        }
+        
+        .thanhphan_datcuoc {
+            width: 90px;
+        }
+        /* nút play */
+        
+        #play {
+            width: 200px;
+            height: 50px;
+            margin-top: 10px;
+            margin-left: calc(50% - 100px);
+        }
+        
+        #tiendangco {
+            border: 5px solid black;
+            width: 100px;
+            padding: 5px;
+            top: 0;
+            right: 50px;
+            text-align: center;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+
+        <div class="submain">
+            <div class="child">
+                <img src="Images/hinh1.png" class="image">
+                <img src="xu.png" class="coin" width="100" height="100">
+
+            </div>
+            <div class="child">
+                <img src="Images/hinh2.png" class="image">
+                <img src="Images/xu.png" class="coin" width="100" height="100">
+
+            </div>
+            <div class="child">
+                <img src="Images/hinh3.png" class="image">
+                <img src="Images/xu.png" class="coin" width="100" height="100">
+            </div>
+        </div>
+        <div class="submain">
+            <div class="child">
+                <img src="Images/hinh3.png" class="image">
+                <img src="Images/xu.png" class="coin" width="100" height="100">
+            </div>
+            <div class="child">
+                <img src="Images/hinh5.png" class="image">
+                <img src="Images/xu.png" class="coin" width="100" height="100">
+            </div>
+            <div class="child">
+                <img src="Images/hinh6.png" class="image">
+                <img src="Images/xu.png" class="coin" width="100" height="100">
+            </div>
+        </div>
+
+    </div>
+    <div class="kq">
+        <div id="ketqua1" class="ketqua"></div>
+        <div id="ketqua2" class="ketqua"></div>
+        <div id="ketqua3" class="ketqua"></div>
+    </div>
+    <div class="datcuoc">
+        Bầu <input type="number" id="bau" class="thanhphan_datcuoc" value="0" min="0" max="250"> Cua <input type="number" id="cua" class="thanhphan_datcuoc" value="0" min="0" max="250"> Tôm <input type="number" id="tom" class="thanhphan_datcuoc" value="0"
+                                                                                                                                                                                                     min="0" max="250"> Cá <input type="number" id="ca" class="thanhphan_datcuoc" value="0" min="0" max="250"> Nai <input type="number" id="nai" class="thanhphan_datcuoc" value="0" min="0" max="250"> Gà <input type="number" id="ga" class="thanhphan_datcuoc"
+                                                                                                                                                                                                                                                                                                                                                                                                                  value="0" min="0" max="250">
+    </div>
+    <button id="play">PLAY</button>
+    <input type="number" id="tiendangco" value="250 " readonly>
+    <script>
+        $(document).ready(function () {
+            $("#tiendangco").ready(function () {
+                //Lay lai trong bo nho thong tin ve so tien hien co
+                var money = localStorage.getItem("tienHienCo");
+                //var name = localStorage.getItem("user");
+                if (money == 0) //Trong truong hop nguoi choi moi
+                {
+                    money = "250";
+                }
+                money = parseInt(money);
+                $("#tiendangco").val(money);
+            })
+            $("#play").click(function () {
+                var tiencuocBau = parseInt($("#bau").val()); /* chuyển chuỗi về số nguyên,val(): trả về giá trị trong phần tử nhập liệu*/
+                var tiencuocCua = parseInt($("#cua").val());
+                var tiencuocTom = parseInt($("#tom").val());
+                var tiencuocCa = parseInt($("#ca").val());
+                var tiencuocNai = parseInt($("#nai").val());
+                var tiencuocGa = parseInt($("#ga").val());
+                var tienHienCo = parseInt($("#tiendangco").val());
+                var Arr = [tiencuocBau, tiencuocCua, tiencuocTom, tiencuocCa, tiencuocNai, tiencuocGa];
+                var tongTienDatCuoc = tiencuocBau + tiencuocCua + tiencuocTom + tiencuocCa + tiencuocNai + tiencuocGa;
+                if (tongTienDatCuoc == 0)
+                    alert("Vui lòng nhập tiền đặt cược");
+                else if (tongTienDatCuoc < 0)
+                    alert("Nhập số tiền không hợp lệ");
+
+                else if (tongTienDatCuoc <= tienHienCo) {
+                    var flag = false; //kiểm tra xem có thắng cược hay không
+                    var kq1 = Math.floor(Math.random() * 10 % 6) + 1; /* trả về giá trị từ 1 đến 6 hàm floor làm tròn xuống*/
+                    var kq2 = Math.floor(Math.random() * 10 % 6) + 1;
+                    var kq3 = Math.floor(Math.random() * 10 % 6) + 1;
+                    $("#ketqua1").html(`<img src="Images/hinh${kq1}.png">`) /* hiểu thị kết quả*/
+                    $("#ketqua2").html(`<img src="Images/hinh${kq2}.png">`)
+                    $("#ketqua3").html(`<img src="Images/hinh${kq3}.png">`)
+                    var Arr = [tiencuocBau, tiencuocCua, tiencuocTom, tiencuocCa, tiencuocNai, tiencuocGa];
+                    var Arr2 = [kq1, kq2, kq3];
+                    for (i = 0; i < Arr.length; i++) {
+                        if (Arr[i] != 0) {
+                            for (j = 0; j < Arr2.length; j++) {
+                                if (Arr2[j] == (i + 1)) {
+                                    tienHienCo += Arr[i];
+                                    flag = true; //Thắng cược
+                                }
+                            }
+                            if (flag) {
+                                Arr[i] = 0;
+                                flag = false;
+                            }
+                        }
+                    }
+                    for (i = 0; i < Arr.length; i++) //Trừ đi số tiền thua cược
+                        tienHienCo -= Arr[i];
+                    localStorage.setItem("tienHienCo", tienHienCo);
+                }
+                else if (tongTienDatCuoc > tienHienCo) {
+                    alert("Bạn không thể đặt cược"); /* hiển thị cảnh báo cho người dùng */
+                }
+                else
+                    alert("Bạn không thể đặt cược khi 1 trong các ô có số tiền đặt cược trống vui lòng nhập lại hoặc cho số tiền bằng 0");
+                $(tiencuocTom == "  " || tiencuocNai == " " || tiencuocGa == " " || tiencuocCua == " " || tiencuocCa == " " || tiencuocBau == " ");
+                $("#tiendangco").val(tienHienCo); // trả về giá trị TienHienCo cho thẻ có thuộc tính id="tiendangco"
+
+            })
+        })
+    </script>
+</body>
+
+</html>
